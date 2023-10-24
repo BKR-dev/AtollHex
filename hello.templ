@@ -1,0 +1,29 @@
+package main
+
+var greeting = "Guten Tag"
+var message = "ich grüße dich!" // will be printed messed up, umlauts needs escaping in html i guess?
+
+templ hello(name, time string) {
+	<!DOCTYPE html>
+	<html>
+		<head>
+			<title>
+				Go+Templ+HTMX
+			</title>
+			<script src="/static/htmx.min.js"></script>
+		</head>
+		<div>
+			{ greeting }, { name }, { message } Es ist: { time }
+		</div>
+		<div id="timestamp">
+			at current time: { time }
+		</div>
+		<button type="button">refresh time</button>
+	</html>
+}
+
+templ returnTime(time string) {
+	<div id="timestamp">
+		at current time: { time }
+	</div>
+}

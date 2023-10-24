@@ -1,0 +1,4 @@
+# ignore the generated templ files
+*_templ.go
+# ignore the tmb build dir
+tmp/
