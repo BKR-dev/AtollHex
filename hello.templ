@@ -1,29 +1,48 @@
 package main
 
 var greeting = "Guten Tag"
-var message = "ich grüße dich!" // will be printed messed up, umlauts needs escaping in html i guess?
+var message = "i welcome you, mein Freund!" // will be printed messed up, umlauts needs escaping in html i guess?
 
-templ hello(name, time string) {
+templ hello(name string) {
 	<!DOCTYPE html>
 	<html>
 		<head>
 			<title>
 				Go+Templ+HTMX
 			</title>
-			<script src="/static/htmx.min.js"></script>
+			<script src="https://unpkg.com/htmx.org@1.9.6"></script>
 		</head>
 		<div>
-			{ greeting }, { name }, { message } Es ist: { time }
+			{ greeting }, { name }, { message }
+			<br/>
+			Es ist: { GetCurrentTime().String() }
 		</div>
 		<div id="timestamp">
-			at current time: { time }
+			at current time: {  GetCurrentTime().String() }
+			<button
+ 				type="button"
+ 				hx-get="/time"
+ 				hx-swap="outerHTML"
+ 				hx-target="#timestamp"
+			>
+				refresh time
+			</button>
 		</div>
-		<button type="button">refresh time</button>
 	</html>
 }
 
-templ returnTime(time string) {
+//
+
+templ returnTime() {
 	<div id="timestamp">
-		at current time: { time }
+		at current time: { GetCurrentTime().String() }
+		<button
+ 			type="button"
+ 			hx-get="/time"
+ 			hx-swap="outerHTML"
+ 			hx-target="#timestamp"
+		>
+			refresh time
+		</button>
 	</div>
 }
