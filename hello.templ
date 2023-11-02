@@ -3,6 +3,12 @@ package main
 var greeting = "Guten Tag"
 var message = "i welcome you, mein Freund!" // will be printed messed up, umlauts needs escaping in html i guess?
 
+css navBar() {
+	list-style-type: none; 
+    margin: 0;
+	padding: 0;
+}
+
 templ hello(name string) {
 	<!DOCTYPE html>
 	<html>
@@ -10,6 +16,7 @@ templ hello(name string) {
 			<title>
 				Go+Templ+HTMX
 			</title>
+			// import htmx via cdn
 			<script src="https://unpkg.com/htmx.org@1.9.6"></script>
 		</head>
 		<div>
@@ -19,30 +26,82 @@ templ hello(name string) {
 		</div>
 		<div id="timestamp">
 			at current time: {  GetCurrentTime().String() }
-			<button
- 				type="button"
- 				hx-get="/time"
- 				hx-swap="outerHTML"
- 				hx-target="#timestamp"
-			>
-				refresh time
-			</button>
 		</div>
-	</html>
-}
-
-//
-
-templ returnTime() {
-	<div id="timestamp">
-		at current time: { GetCurrentTime().String() }
 		<button
  			type="button"
  			hx-get="/time"
- 			hx-swap="outerHTML"
  			hx-target="#timestamp"
 		>
 			refresh time
 		</button>
+	</html>
+}
+
+templ returnTime() {
+	<div id="timestamp">
+		at current time: { GetCurrentTime().String() }
 	</div>
+}
+
+templ PageView(siteName string) {
+	<!DOCTYPE html>
+	<html style="background-color: grey; color: white;">
+		@headerView(siteName)
+		@navbar()
+		@bodyView(siteName)
+		@footerView(siteName)
+	</html>
+}
+
+templ headerView(siteName string) {
+	<head>
+		<title>{ siteName }</title>
+		// import htmx via cdn
+		<script src="https://unpkg.com/htmx.org@1.9.6"></script>
+	</head>
+}
+
+templ navbar() {
+	<nav class="navbar navbar-expand">
+		<ul class="navbar-nav mr-auto" style="list-style-type: none; margin: 0; padding:0;">
+			<li class="navbar-item">Home</li>
+			<li class="navbar-item">About</li>
+			<li class="navbar-item">Github</li>
+			<li class="navbar-item">Contact</li>
+		</ul>
+		<form>
+			<input class="form"/>
+			<button class="btn-search" type="submit">Search</button>
+		</form>
+	</nav>
+}
+
+templ bodyView(siteName string) {
+	<body>
+		<h1>Welcome to { siteName }</h1>
+		<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+		<br/>
+		<h3>Subheadline</h3>
+		<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+		<br/>
+		<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+		<h3>Subheadline</h3>
+		<br/>
+		<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+		<br/>
+		<h3>Subheadline</h3>
+		<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+		<br/>
+	</body>
+}
+
+templ footerView(siteName string) {
+	<footer class="footer">
+		<ul style="list-style-type: none; margin;0; padding:0;">
+			<li class="footer-item">Git Icon</li>
+			<li class="footer-item">Twitter Icon</li>
+			<li class="footer-item">OtherIcon</li>
+			<li class="footer-item">CryptoWallet</li>
+		</ul>
+	</footer>
 }

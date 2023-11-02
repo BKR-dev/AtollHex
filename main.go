@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	component := hello("Valentine")
+	component := PageView("Homepage")
 	timeComponent := returnTime()
 
 	r := chi.NewRouter()
@@ -20,6 +20,7 @@ func main() {
 	// starting the server
 	println("Listening on :3000")
 	http.ListenAndServe(":3000", r)
+
 }
 
 func GetCurrentTime() time.Time {
