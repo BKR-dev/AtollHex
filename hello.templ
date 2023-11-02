@@ -3,38 +3,23 @@ package main
 var greeting = "Guten Tag"
 var message = "i welcome you, mein Freund!" // will be printed messed up, umlauts needs escaping in html i guess?
 
-css navBar() {
-	list-style-type: none; 
-    margin: 0;
-	padding: 0;
-}
-
 templ hello(name string) {
-	<!DOCTYPE html>
-	<html>
-		<head>
-			<title>
-				Go+Templ+HTMX
-			</title>
-			// import htmx via cdn
-			<script src="https://unpkg.com/htmx.org@1.9.6"></script>
-		</head>
-		<div>
-			{ greeting }, { name }, { message }
-			<br/>
-			Es ist: { GetCurrentTime().String() }
-		</div>
-		<div id="timestamp">
-			at current time: {  GetCurrentTime().String() }
-		</div>
-		<button
- 			type="button"
- 			hx-get="/time"
- 			hx-target="#timestamp"
-		>
-			refresh time
-		</button>
-	</html>
+	<div>
+		{ greeting }, { name }, { message }
+		<br/>
+		Es ist: { GetCurrentTime().String() }
+	</div>
+	<div id="timestamp">
+		at current time: {  GetCurrentTime().String() }
+	</div>
+	<button
+ 		class={ "button", className(), templ.KV(primaryClassName(), className()) }
+ 		type="button"
+ 		hx-get="/time"
+ 		hx-target="#timestamp"
+	>
+		refresh time
+	</button>
 }
 
 templ returnTime() {
@@ -49,6 +34,7 @@ templ PageView(siteName string) {
 		@headerView(siteName)
 		@navbar()
 		@bodyView(siteName)
+		@hello("Dave")
 		@footerView(siteName)
 	</html>
 }
