@@ -1,11 +1,11 @@
-package main
+package view
 
 var red = "#ff0000"
 var blue = "#0000ff"
 
 css navBar() {
 	list-style-type: none; 
-    margin: 0;
+        margin: 0;
 	padding: 0;
 }
 
@@ -17,4 +17,8 @@ css primaryClassName() {
 css className() {
 	background-color: #ffffff;
 	color: { blue };
+}
+
+templ button() {
+	<button class={ "button", className(), templ.KV(className(), primaryClassName()) }></button>
 }

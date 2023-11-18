@@ -1,4 +1,4 @@
-package main
+package view
 
 var greeting = "Guten Tag"
 var message = "i welcome you, mein Freund!" // will be printed messed up, umlauts needs escaping in html i guess?
@@ -20,11 +20,26 @@ templ hello(name string) {
 	>
 		refresh time
 	</button>
+	<br/>
 }
 
 templ returnTime() {
 	<div id="timestamp">
 		at current time: { GetCurrentTime().String() }
+	</div>
+}
+
+templ getArticles() {
+	<tr>
+		<td>{ GetArticles().article }</td>
+		<td>55F49448C0</td>
+		<td>Denim</td>
+		<td>Blue</td>
+	</tr>
+	<div>
+		<h1></h1>
+		henlo frens
+		{ GetArticles().fabricType }
 	</div>
 }
 
@@ -35,6 +50,7 @@ templ PageView(siteName string) {
 		@navbar()
 		@bodyView(siteName)
 		@hello("Dave")
+		@infiniteScrollArticles()
 		@footerView(siteName)
 	</html>
 }
@@ -52,7 +68,6 @@ templ navbar() {
 		<ul class="navbar-nav mr-auto" style="list-style-type: none; margin: 0; padding:0;">
 			<li class="navbar-item">Home</li>
 			<li class="navbar-item">About</li>
-			<li class="navbar-item">Github</li>
 			<li class="navbar-item">Contact</li>
 		</ul>
 		<form>
@@ -70,24 +85,37 @@ templ bodyView(siteName string) {
 		<h3>Subheadline</h3>
 		<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
 		<br/>
-		<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
-		<h3>Subheadline</h3>
-		<br/>
-		<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
-		<br/>
-		<h3>Subheadline</h3>
-		<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
-		<br/>
 	</body>
+}
+
+templ infiniteScrollArticles() {
+	<br/>
+	<table>
+		<tr>
+			<th>Article</th>
+			<th>Article Number</th>
+			<th>FabricType</th>
+			<th>FabricColor</th>
+		</tr>
+		<tbody>
+			<tr
+ 				hx-get="/articles/?page=2"
+ 				hx-trigger="revealed"
+ 				hx-swap="afterend"
+			>
+				<td>Jeans</td>
+				<td>55F49448C0</td>
+				<td>Denim</td>
+				<td>Blue</td>
+			</tr>
+		</tbody>
+	</table>
 }
 
 templ footerView(siteName string) {
 	<footer class="footer">
 		<ul style="list-style-type: none; margin;0; padding:0;">
-			<li class="footer-item">Git Icon</li>
-			<li class="footer-item">Twitter Icon</li>
 			<li class="footer-item">OtherIcon</li>
-			<li class="footer-item">CryptoWallet</li>
 		</ul>
 	</footer>
 }
