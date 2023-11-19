@@ -2,7 +2,7 @@ package view
 
 import (
   "github.com/BKR-dev/AtollHex/util"
-  "github.com/BKR-dev/AtollHex/logic"
+  // "github.com/BKR-dev/AtollHex/logic"
 )
 
 
@@ -12,7 +12,7 @@ templ ReturnTime(currentTime string) {
 	</div>
 }
 
-var 
+
 
 templ ReturnArticles(articles []util.Article) {
       <tr id="articles">
@@ -26,10 +26,6 @@ templ ReturnArticles(articles []util.Article) {
       </tr>
 }
 
-
-templ infinityScrollArticles(){
-
-}
 
 
 templ infiniteScrollArticles() {
@@ -55,7 +51,7 @@ templ infiniteScrollArticles() {
     </table>
 }
 
-templ timeExample(currentTime string) {
+templ TimeComponent(currentTime string) {
 	<div>
 		<br/>
 		Es ist: { currentTime }
