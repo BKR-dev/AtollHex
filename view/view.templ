@@ -1,47 +1,5 @@
 package view
 
-var greeting = "Guten Tag"
-var message = "i welcome you, mein Freund!" // will be printed messed up, umlauts needs escaping in html i guess?
-
-templ hello(name string) {
-	<div>
-		{ greeting }, { name }, { message }
-		<br/>
-		Es ist: { GetCurrentTime().String() }
-	</div>
-	<div id="timestamp">
-		at current time: {  GetCurrentTime().String() }
-	</div>
-	<button
- 		class={ "button", className(), templ.KV(primaryClassName(), className()) }
- 		type="button"
- 		hx-get="/time"
- 		hx-target="#timestamp"
-	>
-		refresh time
-	</button>
-	<br/>
-}
-
-templ returnTime() {
-	<div id="timestamp">
-		at current time: { GetCurrentTime().String() }
-	</div>
-}
-
-templ getArticles() {
-	<tr>
-		<td>{ GetArticles().article }</td>
-		<td>55F49448C0</td>
-		<td>Denim</td>
-		<td>Blue</td>
-	</tr>
-	<div>
-		<h1></h1>
-		henlo frens
-		{ GetArticles().fabricType }
-	</div>
-}
 
 templ PageView(siteName string) {
 	<!DOCTYPE html>
@@ -49,11 +7,13 @@ templ PageView(siteName string) {
 		@headerView(siteName)
 		@navbar()
 		@bodyView(siteName)
-		@hello("Dave")
-		@infiniteScrollArticles()
+		@infinityScrollArticles()
+		@timeExample(currentTime)
 		@footerView(siteName)
 	</html>
 }
+
+
 
 templ headerView(siteName string) {
 	<head>
@@ -88,29 +48,6 @@ templ bodyView(siteName string) {
 	</body>
 }
 
-templ infiniteScrollArticles() {
-	<br/>
-	<table>
-		<tr>
-			<th>Article</th>
-			<th>Article Number</th>
-			<th>FabricType</th>
-			<th>FabricColor</th>
-		</tr>
-		<tbody>
-			<tr
- 				hx-get="/articles/?page=2"
- 				hx-trigger="revealed"
- 				hx-swap="afterend"
-			>
-				<td>Jeans</td>
-				<td>55F49448C0</td>
-				<td>Denim</td>
-				<td>Blue</td>
-			</tr>
-		</tbody>
-	</table>
-}
 
 templ footerView(siteName string) {
 	<footer class="footer">

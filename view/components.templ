@@ -1,0 +1,75 @@
+package view
+
+import (
+  "github.com/BKR-dev/AtollHex/util"
+  "github.com/BKR-dev/AtollHex/logic"
+)
+
+
+templ ReturnTime(currentTime string) {
+	<div id="timestamp">
+		at current time: { currentTime }
+	</div>
+}
+
+var 
+
+templ ReturnArticles(articles []util.Article) {
+      <tr id="articles">
+      for _, article := range articles {
+  
+        <td>{ article.Article }</td>
+        <td>{ article.ArticleNumber }</td>
+        <td>{ article.FabricType }</td>
+        <td>{ article.FabricColor }</td>
+  } 
+      </tr>
+}
+
+
+templ infinityScrollArticles(){
+
+}
+
+
+templ infiniteScrollArticles() {
+    <table>
+        <tr>
+            <th>Article</th>
+            <th>Article Number</th>
+            <th>FabricType</th>
+            <th>FabricColor</th>
+        </tr>
+        <tbody>
+            <tr
+                 hx-get="/articles/2"
+                 hx-trigger="revealed"
+                 hx-swap="afterend"
+            >
+                <td>Jeans</td>
+                <td>55F49448C0</td>
+                <td>Denim</td>
+                <td>Blue</td>
+            </tr>
+        </tbody>
+    </table>
+}
+
+templ timeExample(currentTime string) {
+	<div>
+		<br/>
+		Es ist: { currentTime }
+	</div>
+	<div id="timestamp">
+		at current time: {  currentTime }
+	</div>
+	<button
+ 		class={ "button", className(), templ.KV(primaryClassName(), className()) }
+ 		type="button"
+ 		hx-get="/time"
+ 		hx-target="#timestamp"
+	>
+		refresh time
+	</button>
+	<br/>
+}
