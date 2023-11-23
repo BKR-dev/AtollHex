@@ -2,65 +2,62 @@ package server
 
 import (
 	"net/http"
-	"time"
 
-	"github.com/BKR-dev/AtollHex/logic"
 	"github.com/BKR-dev/AtollHex/view"
+	"github.com/a-h/templ"
 )
 
-// func NewServer() *http.Server {
-// 	currentTime := logic.GetCurrentTime().String()
-// 	component := view.PageView("AtollHEX")
-// 	timeComponent := view.ReturnTime(currentTime)
-
-// 	r := chi.NewRouter()
-
-// 	r.Use(middleware.Logger)
-// 	r.Use(middleware.Recoverer)
-// 	// serves the hello component at root
-// 	r.Get("/", templ.Handler(component).ServeHTTP)
-// 	// serves only the timestamp div
-// 	r.Get("/time", templ.Handler(timeComponent).ServeHTTP)
-// 	// serves articles
-// 	r.Get("/articles", func(w http.ResponseWriter, r *http.Request) {
-// 		page, _ := strconv.Atoi(r.URL.Query().Get("page"))
-
-// 		// Fetch articles based on page and pageSize
-// 		// This is just a placeholder. Replace it with your actual logic.
-// 		articles := view.ReturnArticles(page)
-
-// 		// Convert articles to JSON and write to response
-// 		// This is also a placeholder. Replace it with your actual logic.
-// 		json.NewEncoder(w).Encode(articles)
-// 	})
-
-// 	// create a new http.Server
-// 	server := &http.Server{
-// 		Addr:    ":3000",
-// 		Handler: r,
-// 	}
-
-// 	return server
+// NowHandler struct the returns the current time in a anonymous function
+// type NowHandler struct {
+// 	Now func() time.Time
 // }
 
-// NowHandler struct the returns the current time in a anonymous function
-type NowHandler struct {
-	Now func() time.Time
-}
-
 // NewNowHandler returns a new NowHandler
-func NewNowHandler(now func() time.Time) NowHandler {
-	return NowHandler{now}
-}
+// func NewNowHandler(now func() time.Time) NowHandler {
+// 	return NowHandler{now}
+// }
 
 // ServeHTTP confirms to the http.Handler interface on the NowHandler struct
-func (nh NowHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	view.TimeComponent(nh.Now().String()).Render(r.Context(), w)
+// func (nh NowHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+// 	view.TimeComponent(nh.Now().String()).Render(r.Context(), w)
+// }
+
+func timeHandler(componentFunc func() templ.Component) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		component := componentFunc()
+		component.Render(r.Context(), w)
+	}
 }
 
 func NewServer() *http.Server {
-	currentTime := logic.GetCurrentTime().String()
-	pageViewComponent := view.PageView("AtollHEX", currentTime)
-	timeComponent := view.ReturnTime(currentTime)
-	http.Handle("/", NewNowHandler(time.Now))
+	// currentTime := logic.GetCurrentTime().String()
+	pageViewComponentFunc := func() templ.Component {
+		return view.PageView("AtollHEX")
+	}
+	pageViewHandler := NewTemplHandler(pageViewComponentFunc)
+
+	http.Handle("/", pageViewHandler)
+	http.Handle("/time", http.HandlerFunc(timeHandler(view.ReturnTime)))
+
+	return &http.Server{
+		Addr:    ":3000",
+		Handler: http.DefaultServeMux,
+	}
 }
+
+type TemplHandler struct {
+	ComponentFunc func() templ.Component
+}
+
+func NewTemplHandler(componentFunc func() templ.Component) TemplHandler {
+	return TemplHandler{componentFunc}
+}
+
+func (th TemplHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	component := th.ComponentFunc()
+	component.Render(r.Context(), w)
+}
+
+// The one thing I would do is change the struct.
+// Keep the New function and keep the interface method,
+// but the type that’s a function is going to throw a lot of people off imo

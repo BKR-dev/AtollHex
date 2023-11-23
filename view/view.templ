@@ -1,14 +1,14 @@
 package view
 
 
-templ PageView(siteName, currentTime string) {
+templ PageView(siteName string) {
 	<!DOCTYPE html>
 	<html style="background-color: grey; color: white;">
 		@headerView(siteName)
 		@navbar()
 		@bodyView(siteName)
 		// @infinityScrollArticles()
-		@TimeComponent(currentTime)
+		@TimeComponent()
 		@footerView(siteName)
 	</html>
 }

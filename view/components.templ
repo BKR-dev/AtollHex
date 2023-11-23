@@ -2,13 +2,13 @@ package view
 
 import (
   "github.com/BKR-dev/AtollHex/util"
-  // "github.com/BKR-dev/AtollHex/logic"
+	"github.com/BKR-dev/AtollHex/logic"
 )
 
 
-templ ReturnTime(currentTime string) {
+templ ReturnTime() {
 	<div id="timestamp">
-		at current time: { currentTime }
+		at current time: { logic.GetCurrentTime().String() }
 	</div>
 }
 
@@ -51,13 +51,13 @@ templ infiniteScrollArticles() {
     </table>
 }
 
-templ TimeComponent(currentTime string) {
+templ TimeComponent() {
 	<div>
 		<br/>
-		Es ist: { currentTime }
+		Es ist: { logic.GetCurrentTime().String() }
 	</div>
 	<div id="timestamp">
-		at current time: {  currentTime }
+		at current time: { logic.GetCurrentTime().String()  }
 	</div>
 	<button
  		class={ "button", className(), templ.KV(primaryClassName(), className()) }
