@@ -5,14 +5,11 @@ import (
 	"github.com/BKR-dev/AtollHex/logic"
 )
 
-
 templ ReturnTime() {
 	<div id="timestamp">
 		at current time: { logic.GetCurrentTime().String() }
 	</div>
 }
-
-
 
 templ ReturnArticles(articles []util.Article) {
       <tr id="articles">
@@ -25,8 +22,6 @@ templ ReturnArticles(articles []util.Article) {
   } 
       </tr>
 }
-
-
 
 templ infiniteScrollArticles() {
     <table>
